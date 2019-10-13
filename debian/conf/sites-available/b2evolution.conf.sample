@@ -26,7 +26,8 @@ rewrite "^/api/v(?<version>[^/]+)/(?<parameters>(.+))$" /htsrv/rest.php?api_vers
 
   location ~ \.php$ {
     include /etc/nginx/fastcgi_params;
-    fastcgi_pass           unix:/run/php/php7.0-fpm.sock;
+    # With PHP7.3 php-fpm (or other unix sockets):
+    fastcgi_pass           unix:/run/php/php7.3-fpm.sock;
     fastcgi_index index.php;
     fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
   }

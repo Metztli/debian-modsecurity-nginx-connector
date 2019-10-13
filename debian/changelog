@@ -1,9 +1,29 @@
-nginx (1.16.0-1) metztli; urgency=medium
+nginx (1.17.4-1) metztli; urgency=medium
 
-  * New upstream nginx release
-  * Builds ModSecurity v3 Engine X (Nginx) Connector module as http-modsecurity for 'nginx-full'
+  * Upstream new nginx release
+  * Integrated ModSecurity Nginx Connector https://github.com/SpiderLabs/ModSecurity-nginx
+  * Added b2evolution https://b2evolution.net sample configuration
 
- -- Metztli Information Technology <jose.rodriguez@metztli.com>  Sat, 27 Apr 2019 22:19:12 -0700
+ -- Metztli Information Technology <jose@metztli-it.com>  Sat, 12 Oct 2019 16:07:11 -0700
+
+nginx (1.16.1-1) unstable; urgency=medium
+
+  * New upstream version (Closes: #929200)
+  * Follow stable 1.16 releases (Closes: #929199)
+  * Drop already included debian patches
+  * http-ndk: Upgrade to 0.3.1
+  * http-lua: Upgrade to 0.10.15
+
+ -- Christos Trochalakis <ctrochalakis@debian.org>  Mon, 09 Sep 2019 18:24:43 +0300
+
+nginx (1.14.2-3) unstable; urgency=high
+
+  * Backport upstream fixes for 3 CVEs (Closes: #935037)
+    Those fixes affect Nginx HTTP/2 implementation, which might cause
+    excessive memory consumption and CPU usage.
+    (CVE-2019-9511, CVE-2019-9513, CVE-2019-9516).
+
+ -- Christos Trochalakis <ctrochalakis@debian.org>  Mon, 19 Aug 2019 11:30:08 +0300
 
 nginx (1.14.2-2) unstable; urgency=medium
 
@@ -14,6 +34,8 @@ nginx (1.14.2-2) unstable; urgency=medium
 
   [ Christos Trochalakis ]
   * http-dav-ext: Upgrade to 3.0.0 (Closes: #851651)
+  * Use a minimal export of the upstream signing key
+  * Bump Standards-Version, no changes needed
 
  -- Christos Trochalakis <ctrochalakis@debian.org>  Thu, 27 Dec 2018 12:49:34 +0200
 
