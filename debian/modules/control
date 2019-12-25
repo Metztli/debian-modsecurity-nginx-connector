@@ -70,6 +70,6 @@ Version: 1.2.1
 
 Module: http-modsecurity
 Homepage: https://github.com/SpiderLabs/ModSecurity-nginx
-Version: 1.0.0
+Version: 1.0.1
 Files-Excluded: .git .travis.yml
 

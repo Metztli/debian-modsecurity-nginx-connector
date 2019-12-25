@@ -1,0 +1,26 @@
+From 5adc7a57f3b603e67d5768cf8d51edea8ed64ed4 Mon Sep 17 00:00:00 2001
+From: Metztli Information Technology <jose@metztli.it>
+Date: Tue, 24 Dec 2019 16:42:20 -0800
+Subject: [PATCH] Making NGX_HTTP_MODSECURITY dyn module loadable in other than
+ nginx-full
+
+---
+ configure | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/configure b/configure
+index a64661e..aa580fc 100755
+--- a/configure
++++ b/configure
+@@ -61,6 +61,8 @@ fi
+ # Debian
+ # Make sure signature stays the same on all nginx flavors
+ have=NGX_HTTP_HEADERS . auto/have
++# Jose/Metztli IT 12-24-2019 ditto
++have=NGX_HTTP_MODSECURITY . auto/have
+ 
+ . auto/threads
+ . auto/modules
+-- 
+2.20.1
+

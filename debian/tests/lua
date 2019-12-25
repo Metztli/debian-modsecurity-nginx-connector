@@ -2,6 +2,13 @@
 
 set -e
 
+# Check if Nginx is installed (see the test's dependencies).
+# if not we are on an arch where LuaJIT is not available.
+if [ ! -x /usr/sbin/nginx ]; then
+	echo "Nginx is not installed, assuming we are on arch where LuaJIT is not available"
+	exit 0
+fi
+
 rm /etc/nginx/sites-enabled/default
 cat <<EOF > "/etc/nginx/sites-enabled/lua"
 server {

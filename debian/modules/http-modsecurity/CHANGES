@@ -1,6 +1,10 @@
-v1.0.x - YYYY-MMM-DD (To be released)
--------------------------------------
+v1.0.1 - 2019-Dec-16
+--------------------
 
+ - Fixed obtaining of server_addr
+   [Issue #167, #168 - @defanator]
+ - Avoid processing of subrequests initiated by the error_page 
+   [Issue #76, #164, #165 - @defanator]
  - Tests: extend request body tests
    [Issue #142,#143 - @defanator]
  - Added basic tests over HTTP/2
