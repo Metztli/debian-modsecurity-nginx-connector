@@ -3,14 +3,14 @@ Section: httpd
 Priority: optional
 Maintainer: Debian Nginx Maintainers <pkg-nginx-maintainers@alioth-lists.debian.net>
 Uploaders: Christos Trochalakis <ctrochalakis@debian.org>
-Build-Depends: dctrl-tools,
-               debhelper (>= 10),
+Build-Depends: debhelper (>= 10),
                dpkg-dev (>= 1.15.5),
                libexpat-dev,
                libgd-dev,
                libgeoip-dev,
                libhiredis-dev,
-               libluajit-5.1-dev [any-i386 any-amd64 arm64 armel armhf mips mips64el mipsel ppc64el powerpc ppc64],
+               liblua5.1-0-dev [!i386 !amd64 !kfreebsd-i386 !armel !armhf !powerpc !powerpcspe !mips !mipsel],
+               libluajit-5.1-dev [i386 amd64 kfreebsd-i386 armel armhf powerpc powerpcspe mips mipsel],
                libmhash-dev,
                libpam0g-dev,
                libpcre3-dev,
@@ -142,7 +142,7 @@ Depends: libnginx-mod-http-auth-pam (= ${binary:Version}),
          libnginx-mod-http-geoip (= ${binary:Version}),
          libnginx-mod-http-headers-more-filter (= ${binary:Version}),
          libnginx-mod-http-image-filter (= ${binary:Version}),
-         libnginx-mod-http-lua (= ${binary:Version}) [any-i386 any-amd64 arm64 armel armhf mips mips64el mipsel ppc64el powerpc ppc64],
+         libnginx-mod-http-lua (= ${binary:Version}),
          libnginx-mod-http-perl (= ${binary:Version}),
          libnginx-mod-http-subs-filter (= ${binary:Version}),
          libnginx-mod-http-uploadprogress (= ${binary:Version}),
@@ -255,7 +255,7 @@ Description: PAM authentication module for Nginx
  also allows setting the pam service name to allow more fine grained control.
 
 Package: libnginx-mod-http-lua
-Architecture: any-i386 any-amd64 arm64 armel armhf mips mips64el mipsel ppc64el powerpc ppc64
+Architecture: any
 Depends: libnginx-mod-http-ndk (= ${binary:Version}),
          ${misc:Depends},
          ${shlibs:Depends}

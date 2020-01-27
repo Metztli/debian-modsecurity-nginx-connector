@@ -15,6 +15,7 @@ DYN_MODS := \
 	http-geoip \
 	http-headers-more-filter \
 	http-image-filter \
+	http-lua \
 	http-ndk \
 	http-perl \
 	http-subs-filter \
@@ -132,21 +133,11 @@ extras_configure_flags := \
 			--add-dynamic-module=$(MODULESDIR)/http-echo \
 			--add-dynamic-module=$(MODULESDIR)/http-fancyindex \
 			--add-dynamic-module=$(MODULESDIR)/nchan \
+			--add-dynamic-module=$(MODULESDIR)/http-lua \
 			--add-dynamic-module=$(MODULESDIR)/rtmp \
 			--add-dynamic-module=$(MODULESDIR)/http-uploadprogress \
 			--add-dynamic-module=$(MODULESDIR)/http-upstream-fair \
 			--add-dynamic-module=$(MODULESDIR)/http-subs-filter
-
-# Only build http-lua module on supported architectures
-mod_http_lua_check:=$(shell $(CURDIR)/debian/mod-http-lua.check)
-
-ifeq ($(mod_http_lua_check), build-mod-http-lua)
-$(info "http-lua: Building")
-	DYN_MODS += http-lua
-	extras_configure_flags += --add-dynamic-module=$(MODULESDIR)/http-lua
-else
-$(warning "http-lua: Skipping")
-endif
 
 %:
 	dh $@ --without autoreconf
