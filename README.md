@@ -21,7 +21,10 @@ Nginx 1.19.1 / ModSecurity v3 Connector v1.0.1 for Debian Buster Backports
 
  Please review the debian/changelog file.
  :first_quarter_moon_with_face: feel free to use *dch* to modify the debian/changelog file, i.e.,
+
  `dch -v 1.19.1-1 -D metztli`
+
+ *-D metztli* is optional, of course.
 
  Apply debian patches with:
  `quilt push -a --fuzz=0`
