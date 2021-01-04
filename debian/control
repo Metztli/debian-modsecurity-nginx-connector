@@ -195,6 +195,7 @@ Depends: libnginx-mod-http-auth-pam (= ${binary:Version}),
          libnginx-mod-mail (= ${binary:Version}),
          libnginx-mod-nchan (= ${binary:Version}),
          libnginx-mod-stream (= ${binary:Version}),
+	 libnginx-mod-http-modsecurity (= ${binary:Version}),
          libnginx-mod-stream-geoip (= ${binary:Version}),
          libnginx-mod-stream-geoip2 (= ${binary:Version}),
          nginx-common (= ${source:Version}),
@@ -229,7 +230,7 @@ Description: nginx web/proxy server (extended version)
  .
  THIRD PARTY MODULES: Auth PAM, Cache Purge, DAV Ext, Echo, Fancy Index,
  GeoIP2, Headers More, Embedded Lua, HTTP Substitutions, Nchan, Upload Progress,
- Upstream Fair Queue.
+ Upstream Fair Queue, ModSecurity Nginx Connector.
 
 Package: libnginx-mod-http-geoip
 Architecture: any
@@ -492,3 +493,16 @@ Description: RTMP support for Nginx
   - Stream relay support via a push or pull model;
   - Integrated stream recording;
   - and more.
+
+Package: libnginx-mod-http-modsecurity
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: The ModSecurity-nginx connector
+ is the connection point between nginx and libmodsecurity (ModSecurity v3).
+ Said another way, this project provides a communication channel between nginx and libmodsecurity.
+ This connector is required to use LibModSecurity with nginx.
+ .
+ The ModSecurity-nginx connector takes the form of an nginx module.
+ The module simply serves as a layer of communication between nginx and ModSecurity.
+ .
+ Notice that this project depends on libmodsecurity rather than ModSecurity (version 2.9 or less).

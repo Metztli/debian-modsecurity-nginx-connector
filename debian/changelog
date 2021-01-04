@@ -1,3 +1,24 @@
+nginx (1.19.6-1) metztli; urgency=medium
+
+  * New upstream release
+  * Integrated ModSecurity 3 Nginx Connector v1.0.1
+
+ -- Metztli Information Technology <jose@metztli.it>  Sun, 03 Jan 2021 22:31:41 -0800
+
+nginx (1.18.0-6) unstable; urgency=medium
+
+  * Fix GCC-10 compatibility (Closes: #957605).
+
+ -- Ondřej Nový <onovy@debian.org>  Wed, 19 Aug 2020 15:27:02 +0200
+
+nginx (1.18.0-5) unstable; urgency=medium
+
+  * Prevented request smuggling in LUA
+    CVE-2020-11724
+    Closes: #964950
+
+ -- Ondřej Nový <onovy@debian.org>  Tue, 14 Jul 2020 10:08:15 +0200
+
 nginx (1.18.0-4) unstable; urgency=medium
 
   * Revert: libnginx-mod-* now depends on nginx-<any flavour> (Closes: #963860).

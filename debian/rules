@@ -21,6 +21,7 @@ DYN_MODS := \
 	http-perl \
 	http-subs-filter \
 	http-uploadprogress \
+	http-modsecurity \
 	http-upstream-fair \
 	http-xslt-filter \
 	mail \
@@ -127,6 +128,7 @@ extras_configure_flags := \
 			--add-dynamic-module=$(MODULESDIR)/rtmp \
 			--add-dynamic-module=$(MODULESDIR)/http-uploadprogress \
 			--add-dynamic-module=$(MODULESDIR)/http-upstream-fair \
+			--add-dynamic-module=$(MODULESDIR)/http-modsecurity \
 			--add-dynamic-module=$(MODULESDIR)/http-subs-filter
 
 %:
