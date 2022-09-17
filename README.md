@@ -11,10 +11,12 @@ Nginx 1.23.1 / ModSecurity v3 Connector v1.0.3 for Debian Bullseye Backports
  as elaborated at [Metztli IT's Tonalamatl ](https://metztli.blog/nochtli/build-libmodsecurity3-module-and-its)
 
  Before installing libmodsecurity3 make sure you have/do:
+
  `apt-get -t bullseye-backports install libyajl2 libmaxminddb0 liblua5.4-0 libgeoip1 libfuzzy2 libcurl4`
 
  Then, download:
  Nginx 1.23.1-3 most recent ModSecurity v3 builds for Metztli Reiser4 / Debian Bullseye backports for AMD64:
+
  [libmodsecurity3_3.0.7-1_amd64.deb](https://metztli.it/readOnlyEphemeral/libmodsecurity3_3.0.7-1-for-Bullseye/libmodsecurity3_3.0.7-1_amd64.deb)
  [libmodsecurity3_3.0.7-1_amd64.deb.SHA256SUM](https://metztli.it/readOnlyEphemeral/libmodsecurity3_3.0.7-1-for-Bullseye/libmodsecurity3_3.0.7-1_amd64.deb.SHA256SUM)
 
@@ -30,7 +32,7 @@ Nginx 1.23.1 / ModSecurity v3 Connector v1.0.3 for Debian Bullseye Backports
  Please review the debian/changelog file.
  :first_quarter_moon_with_face: I used *dch* to modify/upgrade the debian/changelog file, i.e.,
 
- `dch -v 1.19.6-1 -D metztli`
+ `dch -v 1.23.1-3 -D metztli`
 
  *-D metztli* was optional, of course.
 
