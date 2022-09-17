@@ -1,9 +1,190 @@
-nginx (1.19.6-1) metztli; urgency=medium
+nginx (1.23.1-3) metztli; urgency=medium
 
   * New upstream release
-  * Integrated ModSecurity 3 Nginx Connector v1.0.1
+  * http-modsecurity Version 1.0.3 ( https://github.com/SpiderLabs/ModSecurity-nginx )
 
- -- Metztli Information Technology <jose@metztli.it>  Sun, 03 Jan 2021 22:31:41 -0800
+ -- Metztli Information Technology <jose.r.r@metztli.com>  Sat, 17 Sep 2022 02:23:22 -0700
+
+nginx (1.22.0-3) unstable; urgency=medium
+
+  * d/changelog: fixed typo in bug number 61261 -> 861261 (Closes: 861261) 
+  * d/p/nginx-ssl_cert_cb_yield.patch added (Closes: 884434)
+  * http-lua: removed the http-lua module and moved it to a separate package
+
+ -- Jan Mojžíš <jan.mojzis@gmail.com>  Wed, 17 Aug 2022 18:38:15 +0200
+
+nginx (1.22.0-2) unstable; urgency=medium
+
+  [ Miao Wang ]
+  * adding a new libnginx-mod-http-ndk-dev package including necessary
+    headers to build a 3rd party module depending on ndk.
+
+  [ Jan Mojžíš ]
+  * d/nginx-common.nginx.service: added Systemd dependency
+    Wants=network-online.target and updated Systemd "After" dependency to
+    recommended NGINX values, namely:
+    - network-online.target (Closes: 861261) (Closes: 1000406)
+    - remote-fs.target (Closes: 898896)
+    - nss-lookup.target
+  * d/p/0003-define_gnu_source-on-other-glibc-based-platforms.patch: forwarded
+    to upstream (Closes: 859082)
+  * d/t/reboot: added, tests if nginx works after reboot
+  * d/m/p/http-subs-filter/pcre2.patch: added PCRE2 support
+  * d/p/nginx-fix-pidfile.patch: Fix NGINX PIDfile handling to avoid
+    SystemD race condition, this fix is backported from Ubuntu (Closes: 876365)
+  * d/apport/source_nginx.py: Add apport hooks for additional bug
+    information gathering, the script is backported from Ubuntu (Closes: 963668)
+  * d/nginx-common.install: Add install rule for apport hooks.
+
+  [ Debian Janitor ]
+  * Remove constraints unnecessary since buster:
+    + Build-Depends: Drop versioned constraint on dpkg-dev.
+    + nginx-common: Drop versioned constraint on lsb-base in Depends.
+    + nginx-core: Drop versioned constraint on nginx in Breaks.
+    + nginx-full: Drop versioned constraint on nginx in Breaks.
+    + nginx-light: Drop versioned constraint on nginx in Breaks.
+    + nginx-extras: Drop versioned constraint on nginx in Breaks.
+    + libnginx-mod-http-perl: Drop versioned constraint on nginx-extras in
+      Replaces.
+    + Remove 5 maintscript entries from 1 files.
+
+ -- Jan Mojžíš <jan.mojzis@gmail.com>  Sun, 07 Aug 2022 16:14:59 +0200
+
+nginx (1.22.0-1) unstable; urgency=medium
+
+  [ Thomas Ward ]
+  * New upstream release (1.22.0)
+  * Additional changes:
+    * d/conf/mime.types: Fix a typo in font/woff2 extension in
+      mime.types.  (Closes: #1010798)
+    * d/upstream/signing-key.asc: Additional signing keys observed
+      in upstream (Konstantin Pavlov <k.pavlov@f5.com>) during
+      upstream merge/import by Thomas Ward, additional signing key
+      was added to the keyring while keeping Maxim's key in signing
+      keys as well.
+    * d/copyright: Updated copyright for src/core/ngx_murmurhash.c
+      and debian/modules/http-ndk/src/hash/murmurhash2.c to be
+      public-domain (Closes: #1011936)
+  * d/control: Use libluajit-5.1-dev for s390x.
+    Due to src:luajit2 landing in Unstable, superseding src:luajit,
+    and due to luajit2 having s390x support, we can use s390x now
+    with luajit instead of standard Lua.
+    Thanks to Paul Gevers for the heads up on luajit2 supporting s390x.
+  * d/control: Use liblua for ppc64el - src:luajit2 is still not ppc64el
+    stable and there seems to be nobody willing to support it. (Closes: 1013807)
+
+  [ Jan Mojžíš ]
+  * d/patches/CVE-2021-3618.patch removed, fix is included in new upstream
+  release
+  * d/copyright: bump nginx copyright years
+  * d/copyright: added copyright for src/stream/ngx_stream_set_module.c
+  * d/copyright: removed copyright for src/http/v2/ngx_http_v2_huff_encode.c
+  * d/control: bump Standards-Version to 4.6.1, no changes
+
+  [ Bastian Germann ]
+  * d/copyright: Update copyright for d/debhelper/*
+
+  [ Miao Wang ]
+  * dh_nginx: support auto generating module config files
+  * adding a new nginx-dev package including necessary headers and debhelper
+    scripts to build and package a 3rd party module. (Closes: 985133)
+  * d/p/0002-Make-sure-signature-stays-the-same-in-all-nginx-buil.patch
+    removed, because feature already implemented with --with-compat configure
+    option since 1.11.5
+
+ -- Thomas Ward <teward@ubuntu.com>  Tue, 10 May 2022 12:08:02 -0400
+
+nginx (1.20.2-2) unstable; urgency=medium
+
+  [ Thomas Ward ]
+  * d/patches/CVE-2021-3618.patch: Include upstream changeset from NGINX
+    that adds mitigations into the Mail module for CVE-2021-3618.patch.
+    (Closes: #991328)
+
+  [ Jan Mojžíš ]
+  * d/p/0003-define_gnu_source-on-other-glibc-based-platforms.patch update,
+    fixes build on hurd-i386 platform
+
+ -- Thomas Ward <teward@ubuntu.com>  Wed, 04 May 2022 16:04:59 -0400
+
+nginx (1.20.2-1) unstable; urgency=medium
+
+  [ Ondřej Nový ]
+  * d/control: Update Uploaders for new maintainers.
+
+  [ Thomas Ward ]
+  * Update to latest upstream Stable version (1.20.2) (Closes: #1008855)
+  * d/patches/Resolver-fixed-off-by-one-write-in-ngx_resolver
+    _copy.patch: Drop CVE-2021-23017 patch, as this is fixed in 1.20.1
+    and we are now using 1.20.2 which already contains the patch.
+  * Refreshed d/patches/0002-Make-sure-signature-stays-the-same-
+    in-all-nginx-buil.patch (fuzz thanks to 1.20.2)
+  * d/conf/mime.types: Update mime.types to more match upstream mime.types
+    and include upstream changes with mime.types from 1.21.x via nginx.org
+    mercurial repository versions.
+  * d/control: Remove self from Uploaders per other Debian devs, who want
+    that commit to be done by someone on the current uploaders/maintainers
+    group instead.
+
+ -- Thomas Ward <teward@ubuntu.com>  Tue, 19 Apr 2022 09:50:42 -0400
+
+nginx (1.18.0-9) unstable; urgency=medium
+
+  [ Jan Mojžíš ]
+  * http-lua: Downgrade to 0.10.13 (Closes: #1008787).
+  * http-lua: Backport upstream bugfix for segfault in nginx core >= 1.15.0
+    when libnginx-mod-http-lua is loaded and init_worker_by_lua* is used.
+  * d/control: Add mips64el,ppc64,kfreebsd-amd64 to list of luajit platforms.
+  * d/control: fix Homepage nginx.net -> nginx.org (Closes: #976158)
+
+  [ Thomas Ward ]
+  * d/watch: Update watch syntax to match all even versions of NGINX releases
+    rather than use a watch syntax that is static to one specific version.
+    This will fix the untracked "New upstream stable versions" problem.
+  * d/control: Update 'uploaders' as Thomas Ward is now a maintainer in
+    the Salsa repository.
+
+ -- Jan Mojžíš <jan.mojzis@gmail.com>  Tue, 05 Apr 2022 19:11:47 +0200
+
+nginx (1.18.0-8) unstable; urgency=medium
+
+  * Restore patch:
+    d/p/Resolver-fixed-off-by-one-write-in-ngx_resolver_copy.patch
+
+ -- Ondřej Nový <onovy@debian.org>  Tue, 15 Mar 2022 13:23:06 +0100
+
+nginx (1.18.0-7) unstable; urgency=medium
+
+  [ Ondřej Nový ]
+  * d/p/CVE-2019-20372.patch: Drop, applied upstream.
+  * http-auth-pam: Upgrade to 1.5.3.
+  * http-echo: Upgrade to 0.62.
+  * nchan: Upgrade to 1.2.15.
+  * http-fancyindex: Upgrade to 0.5.2.
+  * rtmp: Upgrade to 1.2.2.
+  * http-lua: Upgrade to 0.10.15 (Closes: #994178).
+  * http-lua: Rebase patch.
+  * nchan: Drop GCC 10 patch, applied upstream.
+  * d/watch: Bump version to 4.
+  * Bump standards version to 4.6.1 (no changes).
+  * d/copyright: Bump my copyright year.
+
+  [ Ondřej Surý ]
+  * Add arm64 and ppc64el to list of luajit platforms.
+
+  [ Athos Ribeiro ]
+  * d/nginx-common.nginx.service: Fix service shutdown description to mention
+    SIGQUIT instead of SIGSTOP (LP: #1919965).
+
+ -- Ondřej Nový <onovy@debian.org>  Tue, 15 Mar 2022 11:50:18 +0100
+
+nginx (1.18.0-6.1) unstable; urgency=high
+
+  * Non-maintainer upload.
+  * Resolver: fixed off-by-one write in ngx_resolver_copy() (CVE-2021-23017)
+    (Closes: #989095)
+
+ -- Salvatore Bonaccorso <carnil@debian.org>  Sat, 29 May 2021 16:21:37 +0200
 
 nginx (1.18.0-6) unstable; urgency=medium
 

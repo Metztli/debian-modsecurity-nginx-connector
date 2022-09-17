@@ -3,8 +3,8 @@ Upstream-Name: nginx
 Source: https://nginx.org/en/download.html
 
 Files: *
-Copyright: 2002-2019, Igor Sysoev
-           2011-2019, Nginx, Inc.
+Copyright: 2002-2021, Igor Sysoev
+           2011-2022, Nginx, Inc.
                       Maxim Dounin
                       Valentin V. Bartenev
                       Roman Arutyunyan
@@ -13,6 +13,14 @@ License: BSD-2-clause
 
 Files: src/core/ngx_murmurhash.c
 Copyright: Copyright (C) Austin Appleby
+License: public-domain
+ All MurmurHash versions are public domain software, and the author 
+ disclaims all copyright to their code.
+ 
+
+Files: src/stream/ngx_stream_set_module.c
+Copyright: Copyright (C) Pavel Pautov
+           Copyright (C) Nginx, Inc.
 License: BSD-2-clause
 
 Files: src/http/modules/ngx_http_scgi_module.c
@@ -21,12 +29,6 @@ Copyright: 2009-2010, Unbit S.a.s.
            2008,      Manlio Perillo (manlio.perillo@gmail.com)
                       Igor Sysoev
                       Nginx, Inc.
-License: BSD-2-clause
-
-Files: src/http/v2/ngx_http_v2_huff_encode.c
-Copyright: 2015, Vlad Krasnov
-                 Nginx, Inc.
-                 Valentin V. Bartenev
 License: BSD-2-clause
 
 Files: contrib/geo2nginx.pl
@@ -41,9 +43,13 @@ Copyright: 2007-2009, Fabio Tranchitella <kobold@debian.org>
            2011       Dmitry E. Oboukhov <unera@debian.org>
            2011-2013, Cyril Lavier <cyril.lavier@davromaniak.eu>
            2013-2016, Christos Trochalakis <ctrochalakis@debian.org>
-           2019-2020, Thomas Ward <teward@ubuntu.com>
-           2020,      Ondřej Nový <onovy@debian.org>
+           2019-2022, Thomas Ward <teward@ubuntu.com>
+           2020-2022, Ondřej Nový <onovy@debian.org>
 License: BSD-2-clause
+
+Files: debian/debhelper/*
+Copyright: 2022 Miao Wang
+License: Expat
 
 Files: debian/modules/http-headers-more-filter/*
 Copyright: 2009-2017, Yichun "agentzh" Zhang (章亦春) <agentzh@gmail.com>, CloudFlare Inc.
@@ -66,7 +72,9 @@ License: BSD-4-clause
 
 Files: debian/modules/http-ndk/src/hash/murmurhash2.c
 Copyright: Austin Appleby
-License: BSD-3-clause
+License: public-domain
+ All MurmurHash versions are public domain software, and the author
+ disclaims all copyright to their code.
 
 Files: debian/modules/http-auth-pam/*
 Copyright: 2008-2020, Sergio Talens Oliag
@@ -75,15 +83,6 @@ License: BSD-2-clause
 Files: debian/modules/http-echo/*
 Copyright: 2009-2014, Yichun "agentzh" Zhang <agentzh@gmail.com>
 License: BSD-2-clause
-
-Files: debian/modules/http-lua/*
-Copyright: 2009-2017, by Xiaozhe Wang (chaoslawful) <chaoslawful@gmail.com>.
-           2009-2018, by Yichun "agentzh" Zhang (章亦春) <agentzh@gmail.com>, OpenResty Inc.
-License: BSD-2-clause
-
-Files: debian/modules/http-lua/t/lib/CRC32.lua
-Copyright: 2007-2008, Neil Richardson (nrich@iinet.net.au)
-License: Expat
 
 Files: debian/modules/http-upstream-fair/*
 Copyright: 2007, Grzegorz Nosek

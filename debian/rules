@@ -16,7 +16,6 @@ DYN_MODS := \
 	http-geoip2 \
 	http-headers-more-filter \
 	http-image-filter \
-	http-lua \
 	http-ndk \
 	http-perl \
 	http-subs-filter \
@@ -33,7 +32,7 @@ DYN_MODS := \
 
 MODULESDIR = $(CURDIR)/debian/modules
 BASEDIR = $(CURDIR)
-$(foreach flavour,$(FLAVOURS),$(eval BUILDDIR_$(flavour) = $(CURDIR)/debian/build-$(flavour)))
+$(foreach flavour,$(FLAVOURS) src ndksrc,$(eval BUILDDIR_$(flavour) = $(CURDIR)/debian/build-$(flavour)))
 
 DEB_BUILD_ARCH ?=$(shell dpkg-architecture -qDEB_BUILD_ARCH)
 ifeq ($(DEB_BUILD_ARCH),sparc)
@@ -49,9 +48,7 @@ MODULESPATCHDIR = $(CURDIR)/debian/modules/patches
 modules_with_patches := $(notdir $(wildcard $(CURDIR)/debian/modules/patches/*))
 
 # configure flags
-common_configure_flags := \
-			--with-cc-opt="$(debian_cflags)" \
-			--with-ld-opt="$(debian_ldflags)" \
+basic_configure_flags := \
 			--prefix=/usr/share/nginx \
 			--conf-path=/etc/nginx/nginx.conf \
 			--http-log-path=/var/log/nginx/access.log \
@@ -75,6 +72,11 @@ common_configure_flags := \
 			--with-http_dav_module \
 			--with-http_slice_module \
 			--with-threads
+
+common_configure_flags := \
+			--with-cc-opt="$(debian_cflags)" \
+			--with-ld-opt="$(debian_ldflags)" \
+			$(basic_configure_flags)
 
 light_configure_flags := \
 			$(common_configure_flags) \
@@ -124,7 +126,6 @@ extras_configure_flags := \
 			--add-dynamic-module=$(MODULESDIR)/http-fancyindex \
 			--add-dynamic-module=$(MODULESDIR)/http-geoip2 \
 			--add-dynamic-module=$(MODULESDIR)/nchan \
-			--add-dynamic-module=$(MODULESDIR)/http-lua \
 			--add-dynamic-module=$(MODULESDIR)/rtmp \
 			--add-dynamic-module=$(MODULESDIR)/http-uploadprogress \
 			--add-dynamic-module=$(MODULESDIR)/http-upstream-fair \
@@ -134,15 +135,15 @@ extras_configure_flags := \
 %:
 	dh $@ --without autoreconf
 
-override_dh_auto_configure: config_patch_modules $(foreach flavour,$(FLAVOURS),config.arch.$(flavour))
-override_dh_auto_build:     $(foreach flavour,$(FLAVOURS),build.arch.$(flavour))
+override_dh_auto_configure: config_patch_modules $(foreach flavour,$(FLAVOURS),config.arch.$(flavour)) config.src config.ndksrc
+override_dh_auto_build:     $(foreach flavour,$(FLAVOURS),build.arch.$(flavour)) build.src build.ndksrc
 override_dh_strip:          $(foreach flavour,$(FLAVOURS),strip.arch.$(flavour)) $(foreach mod,$(DYN_MODS),strip.mods.$(mod))
-override_dh_clean:          clean_patch_modules $(foreach flavour,$(FLAVOURS),clean.$(flavour))
+override_dh_clean:          clean_patch_modules $(foreach flavour,$(FLAVOURS),clean.$(flavour)) clean.src clean.ndksrc
 	dh_clean
 
 override_dh_install:
 	dh_install
-	DH_AUTOSCRIPTDIR=$(CURDIR)/debian/autoscripts debian/dh_nginx
+	DH_AUTOSCRIPTDIR=$(CURDIR)/debian/autoscripts debian/debhelper/dh_nginx --in-nginx-tree
 
 override_dh_installinit:
 	dh_installinit --no-stop-on-upgrade --no-start --name=nginx
@@ -155,6 +156,24 @@ override_dh_installlogrotate:
 
 build.arch.%:
 	$(MAKE) -C $(BUILDDIR_$*) build
+
+build.src:
+	cp -Pa $(CURDIR)/auto $(BUILDDIR_src)/
+	sed -i '/^# create Makefile/,/^END$$/d' $(BUILDDIR_src)/auto/make $(BUILDDIR_src)/auto/init $(BUILDDIR_src)/auto/install
+	find $(CURDIR)/src -type f -name '*.h' -printf 'src/%P\0' | tar -C $(CURDIR) --null --files-from - -c | tar -C $(BUILDDIR_src)/ -x
+	if [ -e $(CURDIR)/configure ]; then cp $(CURDIR)/configure $(BUILDDIR_src)/; fi
+	echo "NGX_CONF_FLAGS=(" $(basic_configure_flags) ")" > $(BUILDDIR_src)/conf_flags
+	pod2man debian/debhelper/dh_nginx > $(BUILDDIR_src)/dh_nginx.1
+
+build.ndksrc:
+	cp -Pa $(CURDIR)/debian/modules/http-ndk/auto \
+	       $(CURDIR)/debian/modules/http-ndk/config \
+		   $(CURDIR)/debian/modules/http-ndk/ngx_auto_lib_core $(BUILDDIR_ndksrc)/
+	for i in src objs; do \
+	  find $(CURDIR)/debian/modules/http-ndk/$$i -type f -name '*.h' -printf "$$i/%P\0" | \
+	    tar -C $(CURDIR)/debian/modules/http-ndk --null --files-from - -c | tar -C $(BUILDDIR_ndksrc)/ -x; \
+	done
+	chmod +x $(CURDIR)/debian/build-ndksrc/auto/build
 
 strip.arch.%:
 	dh_strip --package=nginx-$(*) -O--dbgsym-migration='nginx-$(*)-dbg (<< 1.10.1-3~)'
@@ -183,6 +202,18 @@ config.arch.%:
 	cp -Pa $(CURDIR)/src $(BUILDDIR_$*)/
 	cp -Pa $(CURDIR)/man $(BUILDDIR_$*)/
 	cd $(BUILDDIR_$*) && ./configure $($*_configure_flags)
+	if [ "$(BUILDDIR_$*)" = "$(BUILDDIR_extras)" ]; then \
+	  have="NDK_SET_VAR"; \
+	  /bin/echo -e "#ifndef $$have\n#define $$have  1\n#endif" >> $(BUILDDIR_$*)/objs/ngx_auto_config.h; \
+	fi
+
+config.src:
+	dh_testdir
+	mkdir -p $(BUILDDIR_src)
+
+config.ndksrc:
+	dh_testdir
+	mkdir -p $(BUILDDIR_ndksrc)
 
 clean.%:
 	rm -rf $(BUILDDIR_$*)

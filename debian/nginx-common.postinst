@@ -39,6 +39,7 @@ case "$1" in
 
     # Create a default index page when not already present.
     if [ ! -e /var/www/html/index.nginx-debian.html ]; then
+      mkdir -p /var/www/html
       cp /usr/share/nginx/html/index.html /var/www/html/index.nginx-debian.html
     fi
 

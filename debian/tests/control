@@ -6,10 +6,6 @@ Tests: ec-x25519
 Restrictions: allow-stderr isolation-container needs-root
 Depends: nginx-light, ssl-cert, curl
 
-Tests: lua
-Restrictions: allow-stderr isolation-container needs-root
-Depends: nginx-extras, curl
-
 Tests: core-simple
 Restrictions: allow-stderr isolation-container
 Depends: nginx-core, curl
@@ -35,7 +31,7 @@ Depends: nginx-core,
          libnginx-mod-http-geoip2,
          libnginx-mod-http-headers-more-filter,
          libnginx-mod-http-image-filter,
-         libnginx-mod-http-lua,
+         libnginx-mod-http-lua [amd64 arm64 armel armhf i386 mips64el mipsel s390x],
          libnginx-mod-http-perl,
          libnginx-mod-http-subs-filter,
          libnginx-mod-http-uploadprogress,
@@ -61,7 +57,7 @@ Depends: nginx-full,
          libnginx-mod-http-geoip2,
          libnginx-mod-http-headers-more-filter,
          libnginx-mod-http-image-filter,
-         libnginx-mod-http-lua,
+         libnginx-mod-http-lua [amd64 arm64 armel armhf i386 mips64el mipsel s390x],
          libnginx-mod-http-perl,
          libnginx-mod-http-subs-filter,
          libnginx-mod-http-uploadprogress,
@@ -87,7 +83,7 @@ Depends: nginx-light,
          libnginx-mod-http-geoip2,
          libnginx-mod-http-headers-more-filter,
          libnginx-mod-http-image-filter,
-         libnginx-mod-http-lua,
+         libnginx-mod-http-lua [amd64 arm64 armel armhf i386 mips64el mipsel s390x],
          libnginx-mod-http-perl,
          libnginx-mod-http-subs-filter,
          libnginx-mod-http-uploadprogress,
@@ -113,7 +109,7 @@ Depends: nginx-extras,
          libnginx-mod-http-geoip2,
          libnginx-mod-http-headers-more-filter,
          libnginx-mod-http-image-filter,
-         libnginx-mod-http-lua,
+         libnginx-mod-http-lua [amd64 arm64 armel armhf i386 mips64el mipsel s390x],
          libnginx-mod-http-perl,
          libnginx-mod-http-subs-filter,
          libnginx-mod-http-uploadprogress,
@@ -125,3 +121,7 @@ Depends: nginx-extras,
          libnginx-mod-stream-geoip,
          libnginx-mod-stream-geoip2,
          libnginx-mod-stream,
+
+Tests: reboot
+Restrictions: isolation-container, needs-root, needs-reboot
+Depends: nginx-light, curl
